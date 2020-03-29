@@ -15,6 +15,9 @@ data class BoothEntity(
         @Column(name = "b_password")
         val accessPassword: String,
 
+        @Column(name = "b_printer")
+        val printerUrl: String,
+
         @OneToOne
         @JoinColumn(name = "b_meetup", referencedColumnName = "m_id")
         val meetup: MeetupEntity?
