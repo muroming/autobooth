@@ -1,5 +1,6 @@
 package com.muro.autobadgebooth.meetup.domain.entities
 
+import com.muro.autobadgebooth.user.domain.entities.UsersEntity
 import java.util.*
 import javax.persistence.*
 
@@ -12,10 +13,14 @@ data class MeetupEntity (
         @Column(name = "m_address")
         val address: String,
 
-        @Column(name = "m_start_time")
+        @OneToOne
+        @JoinColumn(name = "m_orgid", referencedColumnName = "u_id")
+        val organisator: UsersEntity,
+
+        @Column(name = "m_start_date")
         val startTime: Date,
 
-        @Column(name = "m_end_time")
+        @Column(name = "m_end_date")
         val endTime: Date
 ) {
 
