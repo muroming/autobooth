@@ -1,14 +1,21 @@
-package com.muro.autobadgebooth.user.data.entities
+package com.muro.autobadgebooth.user.domain.entities
 
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-data class UserEntity(
+data class UsersEntity(
         @Id
+        @Column(name = "u_id")
         @GeneratedValue(strategy = GenerationType.SEQUENCE)
         val id: Long,
+
+        @Column(name = "u_mail")
+        val email: String,
+
+        @Column(name = "u_pass")
+        val password: String,
 
         @Column(name = "u_fname")
         val firstName: String,
@@ -31,9 +38,6 @@ data class UserEntity(
         @Column(name = "u_phone")
         val phoneNumber: String,
 
-        @Column(name = "u_mail")
-        val email: String,
-
         @Column(name = "u_balance")
-        val balance: Int
+        val balance: Long
 )

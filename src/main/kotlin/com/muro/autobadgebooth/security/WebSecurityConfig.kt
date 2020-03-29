@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
@@ -42,7 +41,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(httpSecurity: HttpSecurity) { // We don't need CSRF for this example
         httpSecurity.csrf().disable() // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .authorizeRequests().antMatchers(
+                        "/*/authenticate"
+                ).permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .exceptionHandling()

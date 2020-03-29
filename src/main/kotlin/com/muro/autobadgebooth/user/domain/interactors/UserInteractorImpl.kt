@@ -1,13 +1,13 @@
-package com.muro.autobadgebooth.user.domain
+package com.muro.autobadgebooth.user.domain.interactors
 
-import com.muro.autobadgebooth.user.data.repositories.UserRepository
 import com.muro.autobadgebooth.user.data.dto.UserBadgeDto
 import com.muro.autobadgebooth.user.data.dto.UserDtoMapper
+import com.muro.autobadgebooth.user.data.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class UserInteractorImpl : UserIntreractor {
+class UserInteractorImpl : UserInteractor {
 
     @Autowired
     private lateinit var userRepository: UserRepository

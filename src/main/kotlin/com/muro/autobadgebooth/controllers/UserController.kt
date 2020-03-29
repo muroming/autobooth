@@ -1,27 +1,25 @@
-package com.muro.autobadgebooth
+package com.muro.autobadgebooth.controllers
 
-import com.muro.autobadgebooth.user.domain.UserInteractorImpl
 import com.muro.autobadgebooth.user.data.dto.UserRequestDto
+import com.muro.autobadgebooth.user.domain.interactors.UserInteractor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.lang.NullPointerException
 import java.util.*
 import javax.validation.Valid
-import kotlin.Exception
 import kotlin.math.abs
 
 @RestController
-class RestController {
+class UserController {
 
     @Autowired
-    private lateinit var userRepository: UserInteractorImpl
+    private lateinit var userInteractor: UserInteractor
 
     @RequestMapping("/user")
-    fun getUserBadge(@Valid @RequestBody userRequestDto: UserRequestDto): ResponseEntity<*> = try {
-        val userBadge = userRepository.checkInUserWithId(userRequestDto.id ?: throw NullPointerException("Null ID"))
+    fun getUserBadge(@Valid @RequestBody userRequestDto: UserRequestDto) = try {
+        val userBadge = userInteractor.checkInUserWithId(userRequestDto.id ?: throw NullPointerException("Null ID"))
         if (abs(userRequestDto.timeStamp?.time ?: 0 - Date().time) < TIMESTAMP_DELTA) {
             ResponseEntity.badRequest().body("Big difference in time, check time on your device")
         } else {

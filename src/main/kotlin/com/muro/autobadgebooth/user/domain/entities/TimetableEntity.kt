@@ -1,4 +1,4 @@
-package com.muro.autobadgebooth.user.data.entities
+package com.muro.autobadgebooth.user.domain.entities
 
 import java.util.*
 import javax.persistence.Column

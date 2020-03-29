@@ -1,10 +1,9 @@
-package com.muro.autobadgebooth.user.data.entities
+package com.muro.autobadgebooth.user.domain.entities
 
-import javax.persistence.Column
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
+@Entity
+@Table(name = "roles")
 data class RoleEntity(
         @Id
         @Column(name = "r_id")
