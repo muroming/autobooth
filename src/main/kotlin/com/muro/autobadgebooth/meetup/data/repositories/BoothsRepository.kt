@@ -51,6 +51,11 @@ class BoothsRepository {
         return this.after(start) && this.before(end)
     }
 
+    fun setPrinterIpForBooth(id: Long, ip: String) {
+        val booth = boothsDatabase.getOne(id).copy(printerUrl = ip)
+        boothsDatabase.saveAndFlush(booth)
+    }
+
     companion object {
         private const val DEFAULT_PASSWORD_LENGTH = 10
         private const val DEFAULT_LOGIN_LENGTH = 7
