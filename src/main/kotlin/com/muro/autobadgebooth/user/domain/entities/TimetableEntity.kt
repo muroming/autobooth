@@ -6,9 +6,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 
 data class TimetableEntity(
-        @Column(name = "t_date")
-        val scheduleDate: Date,
-
         @Column(name = "t_time")
         val scheduleTime: Date,
 

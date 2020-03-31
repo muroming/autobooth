@@ -1,6 +1,6 @@
 package com.muro.autobadgebooth.meetup.data.mappers
 
-import com.muro.autobadgebooth.meetup.data.dto.CreateMeetupRequestDto
+import com.muro.autobadgebooth.meetup.data.dto.CreateMeetupDto
 import com.muro.autobadgebooth.meetup.domain.entities.MeetupEntity
 import com.muro.autobadgebooth.meetup.domain.entities.MeetupInfo
 import com.muro.autobadgebooth.user.data.datasources.UserDatabaseJpa
@@ -13,7 +13,7 @@ class MeetupMapper {
     @Autowired
     private lateinit var usersDatabase: UserDatabaseJpa
 
-    fun mapMeetupInfo(dto: CreateMeetupRequestDto): MeetupInfo = MeetupInfo(
+    fun mapMeetupInfo(dto: CreateMeetupDto): MeetupInfo = MeetupInfo(
             name = dto.name,
             orgId = dto.orgId,
             startTime = dto.startTime,
