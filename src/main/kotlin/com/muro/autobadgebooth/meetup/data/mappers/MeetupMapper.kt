@@ -22,6 +22,15 @@ class MeetupMapper {
             booths = dto.booths
     )
 
+    fun mapMeetupInfo(dto: MeetupEntity): MeetupInfo = MeetupInfo(
+            name = dto.name,
+            orgId = dto.organisator.id,
+            startTime = dto.startTime,
+            endTime = dto.endTime,
+            place = dto.address,
+            booths = emptyList()
+    )
+
     fun mapMeetupEntity(meetupInfo: MeetupInfo): MeetupEntity = MeetupEntity(
             name = meetupInfo.name,
             organisator = usersDatabase.findById(meetupInfo.orgId).get(),

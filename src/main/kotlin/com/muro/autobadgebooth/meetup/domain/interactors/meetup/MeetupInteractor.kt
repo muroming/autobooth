@@ -6,4 +6,5 @@ import com.muro.autobadgebooth.meetup.domain.entities.TalkInfo
 interface MeetupInteractor {
     fun createMeetup(meetup: MeetupInfo): Long
     fun createTalk(talk: TalkInfo): Long
+    fun getEvents(): List<MeetupInfo>
 }

@@ -19,4 +19,8 @@ class MeetupRepository {
         return mapper.mapMeetupEntity(meetupInfo).let(meetupDatabase::save).id
     }
 
+    fun getEvents(): List<MeetupInfo> {
+        return meetupDatabase.findAll().map(mapper::mapMeetupInfo)
+    }
+
 }

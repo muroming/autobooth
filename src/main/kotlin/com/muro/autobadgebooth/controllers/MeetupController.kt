@@ -7,6 +7,7 @@ import com.muro.autobadgebooth.meetup.data.mappers.TalkMapper
 import com.muro.autobadgebooth.meetup.domain.interactors.meetup.MeetupInteractor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -23,6 +24,14 @@ class MeetupController {
 
     @Autowired
     private lateinit var talkMapper: TalkMapper
+
+    @GetMapping("/events")
+    fun getEvents() = try {
+        val events = meetupInteractor.getEvents()
+        ResponseEntity.ok(events)
+    } catch (e: Exception) {
+        ResponseEntity.status(500).body("Internal server error")
+    }
 
     @PostMapping("/event/create")
     fun createEvent(@Valid @RequestBody createMeetupDto: CreateMeetupDto) = try {

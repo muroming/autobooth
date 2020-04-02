@@ -28,4 +28,6 @@ class MeetupInteractorImpl : MeetupInteractor {
     }
 
     override fun createTalk(talk: TalkInfo) = participationRepository.createTalk(talk)
+
+    override fun getEvents(): List<MeetupInfo> = meetupRepository.getEvents()
 }
