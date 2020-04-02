@@ -40,12 +40,8 @@ class PrintingInteractor {
         }
     }
 
-    fun stop() {
-        thread.stop()
-    }
-
     fun printInBooth(inputStream: DataInputStream): PrintingStatus {
-        val boothId = inputStream.readLong()
+        val boothId = inputStream.readUTF()
         val printerAddress = URL(boothsDatabase.findByIdOrNull(boothId)?.printerUrl ?: return PrintingStatus.FAIL)
 
         val cupsPrinter = cupsClient.getPrinter(printerAddress)

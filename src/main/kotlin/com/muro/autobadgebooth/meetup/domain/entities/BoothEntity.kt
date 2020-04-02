@@ -7,10 +7,7 @@ import javax.persistence.*
 data class BoothEntity(
         @Id
         @Column(name = "b_id")
-        val id: Long,
-
-        @Column(name = "b_login")
-        val accessLogin: String,
+        val id: String,
 
         @Column(name = "b_password")
         val accessPassword: String,

@@ -3,6 +3,7 @@ package com.muro.autobadgebooth.user.domain.interactors
 import com.muro.autobadgebooth.user.data.dto.UserBadgeDto
 import com.muro.autobadgebooth.user.data.dto.UserDtoMapper
 import com.muro.autobadgebooth.user.data.repositories.UserRepository
+import com.muro.autobadgebooth.user.domain.entities.UserInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -19,4 +20,6 @@ class UserInteractorImpl : UserInteractor {
         val user = userRepository.getUserById(userId)
         return userMapper.mapEntityToDto(user)
     }
+
+    override fun createUser(userInfo: UserInfo): Long = userRepository.createUser(userInfo)
 }

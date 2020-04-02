@@ -16,7 +16,7 @@ class BoothsInteractorImpl : BoothsInteractor {
         return boothsRepository.getAvailableBooths(Date(from), Date(to))
     }
 
-    override fun setIpForBoothWithId(id: Long, ip: String) {
+    override fun setIpForBoothWithId(id: String, ip: String) {
         boothsRepository.setPrinterIpForBooth(id, ip)
     }
 }

@@ -5,12 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-data class UsersEntity(
-        @Id
-        @Column(name = "u_id")
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
-        val id: Long,
-
+data class UserEntity(
         @Column(name = "u_mail")
         val email: String,
 
@@ -40,4 +35,10 @@ data class UsersEntity(
 
         @Column(name = "u_balance")
         val balance: Long
-)
+) {
+
+    @Id
+    @Column(name = "u_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    var id: Long = 0
+}

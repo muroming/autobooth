@@ -26,7 +26,7 @@ class BoothsController {
     }
 
     @PostMapping("/booths/set_print_ip")
-    fun setPrinterIpFotBooth(@RequestParam("ip") ip: String, @RequestParam("boothId") boothId: Long) = try {
+    fun setPrinterIpFotBooth(@RequestParam("ip") ip: String, @RequestParam("boothId") boothId: String) = try {
         val booths = boothsInteractor.setIpForBoothWithId(boothId, ip)
         ResponseEntity.ok(booths)
     } catch (e: Exception) {

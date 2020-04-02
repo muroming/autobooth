@@ -7,6 +7,8 @@ import com.muro.autobadgebooth.meetup.domain.entities.MeetupEntity
 import com.muro.autobadgebooth.util.PasswordGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -30,18 +32,21 @@ class BoothsRepository {
                 }
     }
 
-    fun assignBoothsToMeetup(meetupId: Long, boothIds: List<Long>) {
+    fun assignBoothsToMeetup(meetupId: Long, boothIds: List<String>) {
         val password = passwordGenerator.generatePassword(DEFAULT_PASSWORD_LENGTH)
-        val login = passwordGenerator.generatePassword(DEFAULT_LOGIN_LENGTH)
         val meetup = meetupDatabase.findByIdOrNull(meetupId)
 
         boothIds.forEach { id ->
             boothsDatabase.findById(id).get().copy(
-                    accessLogin = login,
                     accessPassword = password,
                     meetup = meetup
             ).let(boothsDatabase::saveAndFlush)
         }
+    }
+
+    fun loadBoothDetailsById(id: String): UserDetails? {
+        val booth = boothsDatabase.findByIdOrNull(id)
+        return booth?.let { User(it.id, it.accessPassword, emptyList()) }
     }
 
     private fun Date.intersectsWithMeetupTime(meetup: MeetupEntity): Boolean {
@@ -51,13 +56,12 @@ class BoothsRepository {
         return this.after(start) && this.before(end)
     }
 
-    fun setPrinterIpForBooth(id: Long, ip: String) {
+    fun setPrinterIpForBooth(id: String, ip: String) {
         val booth = boothsDatabase.getOne(id).copy(printerUrl = ip)
         boothsDatabase.saveAndFlush(booth)
     }
 
     companion object {
         private const val DEFAULT_PASSWORD_LENGTH = 10
-        private const val DEFAULT_LOGIN_LENGTH = 7
     }
 }

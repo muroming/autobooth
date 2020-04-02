@@ -17,6 +17,6 @@ data class ParticipationId(
 
         @OneToOne(cascade = [CascadeType.ALL])
         @JoinColumn(name = "u_id", referencedColumnName = "u_id")
-        val user: UsersEntity
+        val user: UserEntity
 
 ) : Serializable

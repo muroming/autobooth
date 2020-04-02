@@ -2,7 +2,7 @@ package com.muro.autobadgebooth.security
 
 import java.io.Serializable
 
-data class JwtRequest(
+data class JwtUserRequest(
         val username: String,
         val userPassword: String
 ) : Serializable {
