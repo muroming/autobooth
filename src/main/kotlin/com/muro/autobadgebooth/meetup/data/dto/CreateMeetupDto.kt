@@ -8,5 +8,5 @@ data class CreateMeetupDto(
         val startTime: Date,
         val endTime: Date,
         val place: String,
-        val booths: List<String>
+        val booths: Int
 )

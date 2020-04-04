@@ -20,7 +20,7 @@ class BoothsController {
             @RequestParam("to") toDate: Long
     ) = try {
         val booths = boothsInteractor.getAvailableBooths(fromDate, toDate)
-        ResponseEntity.ok(booths)
+        ResponseEntity.ok(booths.size)
     } catch (e: Exception) {
         ResponseEntity.status(500).body("Internal server error")
     }

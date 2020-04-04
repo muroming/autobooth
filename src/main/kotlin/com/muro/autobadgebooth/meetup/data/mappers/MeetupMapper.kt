@@ -28,7 +28,7 @@ class MeetupMapper {
             startTime = dto.startTime,
             endTime = dto.endTime,
             place = dto.address,
-            booths = emptyList()
+            booths = 0
     )
 
     fun mapMeetupEntity(meetupInfo: MeetupInfo): MeetupEntity = MeetupEntity(

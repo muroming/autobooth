@@ -28,6 +28,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.security:spring-security-web:5.2.1.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-mail:2.2.5.RELEASE")
+
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

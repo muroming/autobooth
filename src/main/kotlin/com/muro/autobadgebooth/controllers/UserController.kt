@@ -37,7 +37,7 @@ class UserController {
         ResponseEntity.status(500).body("Internal server error")
     }
 
-    @PostMapping("/crate_user")
+    @PostMapping("/create_user")
     fun registerUser(@Valid @RequestBody createUserDto: CreateUserDto) = try {
         val userInfo = userMapper.mapInfo(createUserDto)
         val userId = userInteractor.createUser(userInfo)
