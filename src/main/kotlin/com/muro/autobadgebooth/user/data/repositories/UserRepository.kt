@@ -1,5 +1,6 @@
 package com.muro.autobadgebooth.user.data.repositories
 
+import com.muro.autobadgebooth.user.data.datasources.ParticipationDatabaseJpa
 import com.muro.autobadgebooth.user.data.datasources.UserDatabaseJpa
 import com.muro.autobadgebooth.user.domain.entities.UserEntity
 import com.muro.autobadgebooth.user.domain.entities.UserInfo
@@ -14,12 +15,18 @@ class UserRepository {
     lateinit var userDatabase: UserDatabaseJpa
 
     @Autowired
+    lateinit var participationDatabase: ParticipationDatabaseJpa
+
+    @Autowired
     lateinit var userMapper: UserMapper
 
     fun getUserById(userId: Long): UserEntity = userDatabase.getOne(userId)
 
-    fun checkInUserWithId(userId: Long, meetupId: Long) {
-
+    fun checkInUserWithId(userId: Long, meetupId: Long): UserEntity? {
+        val participation = participationDatabase.findAll()
+                .asSequence()
+                .firstOrNull { it.key.user.id == userId && it.key.meetup.id == meetupId }
+        return participation?.key?.user
     }
 
     fun loadUserCredentialsByLogin(login: String): User =

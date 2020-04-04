@@ -20,11 +20,12 @@ class QrRepository {
     }
 
     fun getInfoFromQr(qr: String): Pair<Long, Long> {
-        val (userId, meetupId) = qr.split(" ").take(2).map(String::toLong)
+        val (userId, meetupId) = qr.split(SPLIT_SYMBOL).take(2).map(String::toLong)
         return userId to meetupId
     }
 
     companion object {
-        private const val QR_CODE_DATA = "%d %d"
+        private const val SPLIT_SYMBOL = '/'
+        private const val QR_CODE_DATA = "%d$SPLIT_SYMBOL%d"
     }
 }
