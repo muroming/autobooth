@@ -7,8 +7,6 @@ import com.muro.autobadgebooth.meetup.domain.entities.MeetupEntity
 import com.muro.autobadgebooth.util.PasswordGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.mail.SimpleMailMessage
-import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
@@ -25,9 +23,6 @@ class BoothsRepository {
     @Autowired
     private lateinit var passwordGenerator: PasswordGenerator
 
-    @Autowired
-    private lateinit var mailSender: JavaMailSender
-
     fun getAvailableBooths(from: Date, to: Date): List<BoothEntity> {
         return boothsDatabase.findAll()
                 .filter {
@@ -37,7 +32,7 @@ class BoothsRepository {
                 }
     }
 
-    fun assignBoothsToMeetup(meetupId: Long, boothIds: List<String>) {
+    fun assignBoothsToMeetup(meetupId: Long, boothIds: List<String>): String {
         val password = passwordGenerator.generatePassword(DEFAULT_PASSWORD_LENGTH)
         val meetup = meetupDatabase.getOne(meetupId)
 
@@ -47,16 +42,8 @@ class BoothsRepository {
                     meetup = meetup
             ).let(boothsDatabase::saveAndFlush)
         }
-        sendPasswordToUser(meetup.name, meetup.organisator.email, password)
-    }
 
-    private fun sendPasswordToUser(meetupName: String, email: String, password: String) {
-        SimpleMailMessage().apply {
-            setTo(email)
-            setSubject("${meetupName.capitalize()} meetup. Password for booths")
-            setText("Use password\n$password\nto access your booths")
-            mailSender.send(this)
-        }
+        return password
     }
 
     fun loadBoothDetailsById(id: String): UserDetails? {

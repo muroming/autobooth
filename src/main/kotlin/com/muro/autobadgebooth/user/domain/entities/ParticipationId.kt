@@ -9,7 +9,7 @@ import javax.persistence.*
 data class ParticipationId(
 
         @Column(name = "p_speech_time")
-        val speechTime: Date?,
+        val speechTime: Date,
 
         @OneToOne(cascade = [CascadeType.ALL])
         @JoinColumn(name = "m_id", referencedColumnName = "m_id")

@@ -16,10 +16,10 @@ class UserRepository {
     @Autowired
     lateinit var userMapper: UserMapper
 
-    fun getUserById(userId: Long): UserEntity {
-        return userDatabase.findById(userId).orElseThrow {
-            IllegalArgumentException("User with ID $userId is not found")
-        }
+    fun getUserById(userId: Long): UserEntity = userDatabase.getOne(userId)
+
+    fun checkInUserWithId(userId: Long, meetupId: Long) {
+
     }
 
     fun loadUserCredentialsByLogin(login: String): User =
