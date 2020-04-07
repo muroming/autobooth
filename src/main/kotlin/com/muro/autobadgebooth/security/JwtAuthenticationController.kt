@@ -1,7 +1,10 @@
 package com.muro.autobadgebooth.security
 
+import com.muro.autobadgebooth.security.detailsservice.AugmentedUserDetails
 import com.muro.autobadgebooth.security.detailsservice.JwtBoothDetailsService
 import com.muro.autobadgebooth.security.detailsservice.JwtUserDetailsService
+import com.muro.autobadgebooth.security.jwtresponse.BoothJwtResponse
+import com.muro.autobadgebooth.security.jwtresponse.UserJwtResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.ResponseEntity
@@ -40,9 +43,9 @@ class JwtAuthenticationController {
         return try {
             println("${authenticationRequest.username} ${authenticationRequest.userPassword}")
             authenticate(userAuthenticationManager, authenticationRequest.username, authenticationRequest.userPassword)
-            val userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username)
+            val userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username) as AugmentedUserDetails
             val token = jwtUtil.generateToken(userDetails)
-            ResponseEntity.ok(JwtResponse(token))
+            ResponseEntity.ok(UserJwtResponse(userDetails.id, userDetails.username, token))
         } catch (e: DisabledException) {
             ResponseEntity.of(Optional.of("USER_DISABLED"))
         } catch (e: BadCredentialsException) {
@@ -56,7 +59,7 @@ class JwtAuthenticationController {
             authenticate(boothAuthenticationManager, authenticationRequest.boothId, authenticationRequest.userPassword)
             val userDetails = boothDetailsService.loadUserByUsername(authenticationRequest.boothId)
             val token = jwtUtil.generateToken(userDetails)
-            ResponseEntity.ok(JwtResponse(token))
+            ResponseEntity.ok(BoothJwtResponse(token))
         } catch (e: DisabledException) {
             ResponseEntity.of(Optional.of("USER_DISABLED"))
         } catch (e: BadCredentialsException) {

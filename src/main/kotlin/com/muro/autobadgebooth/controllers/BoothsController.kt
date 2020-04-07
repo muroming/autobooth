@@ -1,6 +1,7 @@
 package com.muro.autobadgebooth.controllers
 
 import com.muro.autobadgebooth.meetup.domain.interactors.booths.BoothsInteractor
+import com.muro.autobadgebooth.printing.PrintingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,6 +14,9 @@ class BoothsController {
 
     @Autowired
     private lateinit var boothsInteractor: BoothsInteractor
+
+    @Autowired
+    private lateinit var printingService: PrintingService
 
     @GetMapping("/booths/available")
     fun getAvailableBooths(

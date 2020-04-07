@@ -1,6 +1,6 @@
-package com.muro.autobadgebooth.security
+package com.muro.autobadgebooth.security.jwtresponse
 
-data class JwtResponse(
+data class BoothJwtResponse(
         val token: String
 ) {
     companion object {

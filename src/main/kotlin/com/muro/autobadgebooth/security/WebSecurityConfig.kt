@@ -47,7 +47,8 @@ class WebSecurityConfig {
         override fun configure(httpSecurity: HttpSecurity) {
             httpSecurity.csrf().disable()
                     .authorizeRequests().antMatchers(
-                            "/user/authenticate"
+                            "/user/authenticate",
+                            "/create_user"
                     ).permitAll()
                     .and()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -78,7 +79,8 @@ class WebSecurityConfig {
         override fun configure(httpSecurity: HttpSecurity) {
             httpSecurity.csrf().disable()
                     .authorizeRequests().antMatchers(
-                            "/booth/authenticate"
+                            "/booth/authenticate",
+                            "/events"
                     ).permitAll()
                     .and()
                     .exceptionHandling()

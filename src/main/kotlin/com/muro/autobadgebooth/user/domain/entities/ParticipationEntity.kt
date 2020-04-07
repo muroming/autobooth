@@ -14,6 +14,6 @@ data class ParticipationEntity(
 ) {
 
         @Column(name = "p_id")
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0
 }

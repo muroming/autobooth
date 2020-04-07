@@ -1,5 +1,6 @@
 package com.muro.autobadgebooth.user.data.repositories
 
+import com.muro.autobadgebooth.security.detailsservice.AugmentedUserDetails
 import com.muro.autobadgebooth.user.data.datasources.ParticipationDatabaseJpa
 import com.muro.autobadgebooth.user.data.datasources.UserDatabaseJpa
 import com.muro.autobadgebooth.user.domain.entities.UserEntity
@@ -31,7 +32,7 @@ class UserRepository {
 
     fun loadUserCredentialsByLogin(login: String): User =
             userDatabase.findUserByEmail(login)?.let {
-                User(it.email, it.password, emptyList())
+                AugmentedUserDetails(it.id, it.email, it.password)
             } ?: throw IllegalArgumentException("User with login $login is not found")
 
     fun createUser(userInfo: UserInfo): Long {

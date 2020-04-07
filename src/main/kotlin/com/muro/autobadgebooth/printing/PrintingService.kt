@@ -5,16 +5,17 @@ import org.cups4j.CupsClient
 import org.cups4j.PrintJob
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.stereotype.Service
 import java.io.DataInputStream
 import java.net.ServerSocket
 import java.net.URL
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
+import javax.annotation.PostConstruct
 
-@RestController
-class PrintingInteractor {
+@Service
+class PrintingService {
     @Autowired
     private lateinit var boothsDatabase: BoothsDatabaseJpa
 
@@ -32,6 +33,7 @@ class PrintingInteractor {
     fun listen() {
         while (true) {
             val socket = serverSocket.accept()
+            println("Accepted connection from ${socket.inetAddress}")
             threadPoolExecutor.execute {
                 socket.use {
                     DataInputStream(it.getInputStream()).use(::printInBooth)
@@ -40,16 +42,28 @@ class PrintingInteractor {
         }
     }
 
+    @PostConstruct
+    fun start() {
+        thread.start()
+        println("Printer service is up")
+    }
+
     fun printInBooth(inputStream: DataInputStream): PrintingStatus {
         val boothId = inputStream.readUTF()
+        println("Received boothId $boothId")
         val printerAddress = URL(boothsDatabase.findByIdOrNull(boothId)?.printerUrl ?: return PrintingStatus.FAIL)
+        println("Print address is $printerAddress")
 
         val cupsPrinter = cupsClient.getPrinter(printerAddress)
+        println("Cups connected to printer")
         val documentSize = inputStream.readInt()
+        println("Received documentSize of $documentSize bytes")
         val documentBytes = inputStream.readBytes(documentSize)
+        println("Received document")
 
         val printJob = PrintJob.Builder(documentBytes).build()
         cupsPrinter.print(printJob)
+        println("Started printing")
 
         return PrintingStatus.STARTED
     }
