@@ -51,9 +51,9 @@ class MeetupInteractorImpl : MeetupInteractor {
 
     override fun getEvents(): List<MeetupInfo> = meetupRepository.getEvents()
 
-    override fun registerUserForMeetup(userId: Long, meetupId: Long): Long {
-        val id = meetupRepository.registerUserForMeetup(userId, meetupId)
-        val qr = qrRepository.createQrCode(userId, meetupId)
+    override fun registerUserForMeetup(userId: Long, meetupId: Long): String {
+        val id = participationRepository.registerUserForMeetup(userId, meetupId)
+        val qr = qrRepository.createQrCode(id)
         val user = userRepository.getUserById(userId)
         mailRepository.sendQrToUser(user.email, qr)
 

@@ -21,9 +21,8 @@ class UserInteractorImpl : UserInteractor {
     private lateinit var userMapper: UserDtoMapper
 
 
-    override fun checkInUserWithId(data: String): UserBadgeDto? {
-        val (userId, meetupId) = qrRepository.getInfoFromQr(data)
-        val user = userRepository.checkInUserWithId(userId, meetupId)
+    override fun checkInUserWithId(participationId: String): UserBadgeDto? {
+        val user = userRepository.checkInUserWithId(participationId)
         return user?.let(userMapper::mapEntityToDto)
     }
 

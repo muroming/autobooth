@@ -9,9 +9,9 @@ import javax.imageio.ImageIO
 @Component
 class QrRepository {
 
-    fun createQrCode(userId: Long, meetupId: Long): BufferedImage {
+    fun createQrCode(participationId: String): BufferedImage {
         val stream = QRCode
-                .from(String.format(QR_CODE_DATA, userId, meetupId))
+                .from(participationId)
                 .withSize(250, 250)
                 .stream()
         val bis = ByteArrayInputStream(stream.toByteArray())
@@ -19,13 +19,4 @@ class QrRepository {
         return ImageIO.read(bis)
     }
 
-    fun getInfoFromQr(qr: String): Pair<Long, Long> {
-        val (userId, meetupId) = qr.split(SPLIT_SYMBOL).take(2).map(String::toLong)
-        return userId to meetupId
-    }
-
-    companion object {
-        private const val SPLIT_SYMBOL = '/'
-        private const val QR_CODE_DATA = "%d$SPLIT_SYMBOL%d"
-    }
 }

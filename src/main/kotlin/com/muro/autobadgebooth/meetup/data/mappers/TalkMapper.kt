@@ -7,6 +7,7 @@ import com.muro.autobadgebooth.meetup.domain.entities.TalkInfo
 import com.muro.autobadgebooth.user.data.datasources.UserDatabaseJpa
 import com.muro.autobadgebooth.user.domain.entities.ParticipationEntity
 import com.muro.autobadgebooth.user.domain.entities.ParticipationId
+import com.muro.autobadgebooth.util.PasswordGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -21,8 +22,12 @@ class TalkMapper {
     @Autowired
     private lateinit var rolesDatabase: RolesDatabaseJpa
 
+    @Autowired
+    private lateinit var passwordGenerator: PasswordGenerator
+
     fun mapInfo(dto: CreateTalkDto): TalkInfo {
         return TalkInfo(
+                id = "",
                 user = userDatabase.getOne(dto.userId),
                 meetup = meetupDatabase.getOne(dto.meetupId),
                 startTime = dto.startTime,
@@ -32,8 +37,9 @@ class TalkMapper {
         )
     }
 
-    fun mapParticipationEntity(info: TalkInfo): ParticipationEntity {
+    fun mapParticipationEntity(info: TalkInfo, id: String): ParticipationEntity {
         return ParticipationEntity(
+                id = id,
                 key = createParticipationKey(info),
                 role = info.role
         )

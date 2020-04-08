@@ -43,9 +43,9 @@ class MeetupController {
     @PostMapping("/event/create_talk")
     fun createTalk(@Valid @RequestBody createTalkDto: CreateTalkDto) = try {
         val talkInfo = talkMapper.mapInfo(createTalkDto)
-        val id = meetupInteractor.createTalk(talkInfo)
+        val talkId = meetupInteractor.createTalk(talkInfo)
 
-        ResponseEntity.ok(id)
+        ResponseEntity.ok(talkId)
     } catch (e: Exception) {
         ResponseEntity.status(500).body("Internal server error")
     }

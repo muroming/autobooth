@@ -7,6 +7,7 @@ import com.muro.autobadgebooth.user.domain.entities.UserEntity
 import com.muro.autobadgebooth.user.domain.entities.UserInfo
 import com.muro.autobadgebooth.user.domain.mappers.UserMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
 
@@ -23,10 +24,8 @@ class UserRepository {
 
     fun getUserById(userId: Long): UserEntity = userDatabase.getOne(userId)
 
-    fun checkInUserWithId(userId: Long, meetupId: Long): UserEntity? {
-        val participation = participationDatabase.findAll()
-                .asSequence()
-                .firstOrNull { it.key.user.id == userId && it.key.meetup.id == meetupId }
+    fun checkInUserWithId(participationId: String): UserEntity? {
+        val participation = participationDatabase.findByIdOrNull(participationId)
         return participation?.key?.user
     }
 
