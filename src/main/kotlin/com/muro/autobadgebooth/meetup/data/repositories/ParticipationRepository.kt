@@ -36,15 +36,15 @@ class ParticipationRepository {
     fun createTalk(talk: TalkInfo): String {
         val participation = talkMapper.mapParticipationEntity(talk, getParticipationId())
 
-        return participationDatabase.saveAndFlush(participation).id
+        return participationDatabase.saveAndFlush(participation).participationToken
     }
 
     fun registerUserForMeetup(userId: Long, meetupId: Long): String {
         val user = userDatabase.getOne(userId)
         val meetup = meetupDatabase.getOne(meetupId)
         val participation = ParticipationEntity(
-                id = getParticipationId(),
-                key = ParticipationId(
+                participationToken = getParticipationId(),
+                id = ParticipationId(
                         speechTime = Date(),
                         meetup = meetup,
                         user = user
@@ -52,7 +52,7 @@ class ParticipationRepository {
                 role = rolesDatabase.getOne(LISTENER_ROLE_ID)
         )
 
-        return participationDatabase.saveAndFlush(participation).id
+        return participationDatabase.saveAndFlush(participation).participationToken
     }
 
     private fun getParticipationId() = passwordGenerator.generatePassword(DEFAULT_ID_LENGTH)

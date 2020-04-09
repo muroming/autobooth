@@ -5,11 +5,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "participation")
 data class ParticipationEntity(
-        @Column(name = "p_id")
-        val id: String,
 
         @EmbeddedId
-        val key: ParticipationId,
+        val id: ParticipationId,
+
+        @Column(name = "p_id")
+        val participationToken: String,
 
         @OneToOne(cascade = [CascadeType.ALL])
         @JoinColumn(name = "r_id", referencedColumnName = "r_id")

@@ -56,7 +56,7 @@ class PrintingService {
         println("Print address is $printerAddress")
 
         val cupsPrinter = cupsClient.getPrinter(printerAddress)
-        println("Cups connected to printer")
+        println("Cups connected to printer ${cupsPrinter?.name}")
         val documentSize = inputStream.readInt()
         println("Received documentSize of $documentSize bytes")
         val documentBytes = inputStream.readBytes(documentSize)

@@ -39,8 +39,8 @@ class TalkMapper {
 
     fun mapParticipationEntity(info: TalkInfo, id: String): ParticipationEntity {
         return ParticipationEntity(
-                id = id,
-                key = createParticipationKey(info),
+                participationToken = id,
+                id = createParticipationKey(info),
                 role = info.role
         )
     }

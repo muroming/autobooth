@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ParticipationDatabaseJpa : JpaRepository<ParticipationEntity, String>
+interface ParticipationDatabaseJpa : JpaRepository<ParticipationEntity, String> {
+    fun findByParticipationToken(participationToken: String): ParticipationEntity?
+}
