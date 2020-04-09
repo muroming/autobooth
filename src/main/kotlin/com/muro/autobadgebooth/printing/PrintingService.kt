@@ -51,7 +51,8 @@ class PrintingService {
     fun printInBooth(inputStream: DataInputStream): PrintingStatus {
         val boothId = inputStream.readUTF()
         println("Received boothId $boothId")
-        val printerAddress = URL(boothsDatabase.findByIdOrNull(boothId)?.printerUrl ?: return PrintingStatus.FAIL)
+        val printerName = boothsDatabase.findByIdOrNull(boothId)?.printerUrl ?: return PrintingStatus.FAIL
+        val printerAddress = URL("$LOCAL_CUPS_ADDRESS$printerName")
         println("Print address is $printerAddress")
 
         val cupsPrinter = cupsClient.getPrinter(printerAddress)
@@ -60,8 +61,9 @@ class PrintingService {
         println("Received documentSize of $documentSize bytes")
         val documentBytes = inputStream.readBytes(documentSize)
         println("Received document")
-
-        val printJob = PrintJob.Builder(documentBytes).build()
+        val printJob = PrintJob.Builder(documentBytes)
+                .pageFormat("iso-a6")
+                .build()
         cupsPrinter.print(printJob)
         println("Started printing")
 
@@ -74,5 +76,7 @@ class PrintingService {
         private const val CORE_THREAD_POOL_SIZE = 256
         private const val MAX_THREAD_POOL_SIZE = 1024
         private const val DEFAULT_KEEP_ALIVE_TIME = 10L
+
+        private const val LOCAL_CUPS_ADDRESS = "http://localhost:631/printers/"
     }
 }
