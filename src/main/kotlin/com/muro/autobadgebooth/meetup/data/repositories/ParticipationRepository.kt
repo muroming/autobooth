@@ -7,7 +7,6 @@ import com.muro.autobadgebooth.meetup.domain.entities.TalkInfo
 import com.muro.autobadgebooth.user.data.datasources.ParticipationDatabaseJpa
 import com.muro.autobadgebooth.user.data.datasources.UserDatabaseJpa
 import com.muro.autobadgebooth.user.domain.entities.ParticipationEntity
-import com.muro.autobadgebooth.user.domain.entities.ParticipationId
 import com.muro.autobadgebooth.util.PasswordGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -36,23 +35,21 @@ class ParticipationRepository {
     fun createTalk(talk: TalkInfo): String {
         val participation = talkMapper.mapParticipationEntity(talk, getParticipationId())
 
-        return participationDatabase.saveAndFlush(participation).participationToken
+        return participationDatabase.saveAndFlush(participation).id
     }
 
     fun registerUserForMeetup(userId: Long, meetupId: Long): String {
         val user = userDatabase.getOne(userId)
         val meetup = meetupDatabase.getOne(meetupId)
         val participation = ParticipationEntity(
-                participationToken = getParticipationId(),
-                id = ParticipationId(
-                        speechTime = Date(),
-                        meetup = meetup,
-                        user = user
-                ),
+                id = getParticipationId(),
+                speechTime = Date(),
+                meetup = meetup,
+                user = user,
                 role = rolesDatabase.getOne(LISTENER_ROLE_ID)
         )
 
-        return participationDatabase.saveAndFlush(participation).participationToken
+        return participationDatabase.saveAndFlush(participation).id
     }
 
     private fun getParticipationId() = passwordGenerator.generatePassword(DEFAULT_ID_LENGTH)

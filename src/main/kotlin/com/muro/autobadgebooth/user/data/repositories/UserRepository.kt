@@ -7,6 +7,7 @@ import com.muro.autobadgebooth.user.domain.entities.UserEntity
 import com.muro.autobadgebooth.user.domain.entities.UserInfo
 import com.muro.autobadgebooth.user.domain.mappers.UserMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
 
@@ -24,8 +25,8 @@ class UserRepository {
     fun getUserById(userId: Long): UserEntity = userDatabase.getOne(userId)
 
     fun checkInUserWithId(participationId: String): UserEntity? {
-        val participation = participationDatabase.findByParticipationToken(participationId)
-        return participation?.id?.user
+        val participation = participationDatabase.findByIdOrNull(participationId)
+        return participation?.user
     }
 
     fun loadUserCredentialsByLogin(login: String): User =

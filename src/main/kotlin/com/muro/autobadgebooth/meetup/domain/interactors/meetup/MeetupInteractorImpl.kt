@@ -47,16 +47,23 @@ class MeetupInteractorImpl : MeetupInteractor {
         return meetup.id
     }
 
-    override fun createTalk(talk: TalkInfo) = participationRepository.createTalk(talk)
+    override fun createTalk(talk: TalkInfo): String {
+        val id = participationRepository.createTalk(talk)
+        sendParticipationQrToUser(talk.user.id, id)
+        return id
+    }
 
     override fun getEvents(): List<MeetupInfo> = meetupRepository.getEvents()
 
     override fun registerUserForMeetup(userId: Long, meetupId: Long): String {
         val id = participationRepository.registerUserForMeetup(userId, meetupId)
-        val qr = qrRepository.createQrCode(id)
+        sendParticipationQrToUser(userId, id)
+        return id
+    }
+
+    private fun sendParticipationQrToUser(userId: Long, participationId: String) {
+        val qr = qrRepository.createQrCode(participationId)
         val user = userRepository.getUserById(userId)
         mailRepository.sendQrToUser(user.email, qr)
-
-        return id
     }
 }
