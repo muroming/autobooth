@@ -37,6 +37,8 @@ dependencies {
 
 	implementation("org.cups4j:cups4j:0.7.6")
 	implementation("net.glxn:qrgen:1.4")
+	implementation("com.google.code.gson:gson:2.8.6")
+
 
 	implementation("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {

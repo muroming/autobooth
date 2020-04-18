@@ -1,4 +1,4 @@
-package com.muro.autobadgebooth.user.domain.mappers
+package com.muro.autobadgebooth.user.data.mappers
 
 import com.muro.autobadgebooth.user.data.dto.CreateUserDto
 import com.muro.autobadgebooth.user.domain.entities.UserEntity
@@ -34,7 +34,7 @@ class UserMapper {
                 password = passwordEncoder.encode(info.password),
                 firstName = info.firstName,
                 lastName = info.secondName,
-                rank = info.rank ?: "",
+                rank = info.rank,
                 sex = info.sex.toString(),
                 birth = info.birth,
                 phoneNumber = info.phone,
