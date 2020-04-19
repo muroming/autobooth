@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -22,6 +23,9 @@ class BoothsRepository {
 
     @Autowired
     private lateinit var passwordGenerator: PasswordGenerator
+
+    @Autowired
+    private lateinit var passwordEncoder: BCryptPasswordEncoder
 
     fun getAvailableBooths(from: Date, to: Date): List<BoothEntity> {
         return boothsDatabase.findAll()
@@ -38,7 +42,7 @@ class BoothsRepository {
 
         boothIds.forEach { id ->
             boothsDatabase.findById(id).get().copy(
-                    accessPassword = password,
+                    accessPassword = passwordEncoder.encode(password),
                     meetup = meetup
             ).let(boothsDatabase::saveAndFlush)
         }
