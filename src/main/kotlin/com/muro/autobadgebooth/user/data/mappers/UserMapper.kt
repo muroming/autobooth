@@ -16,7 +16,7 @@ class UserMapper {
     fun mapInfo(dto: CreateUserDto): UserInfo {
         return UserInfo(
                 email = dto.email,
-                password = passwordEncoder.encode(dto.password),
+                password = dto.password,
                 firstName = dto.firstName,
                 secondName = dto.secondName,
                 rank = dto.rank ?: "",
