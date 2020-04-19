@@ -7,7 +7,6 @@ import com.muro.autobadgebooth.meetup.data.repositories.ParticipationRepository
 import com.muro.autobadgebooth.meetup.domain.entities.BoothEntity
 import com.muro.autobadgebooth.meetup.domain.entities.MeetupInfo
 import com.muro.autobadgebooth.meetup.domain.entities.TalkInfo
-import com.muro.autobadgebooth.user.data.repositories.QrRepository
 import com.muro.autobadgebooth.user.data.repositories.UserRepository
 import com.muro.autobadgebooth.util.takeExactly
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,9 +27,6 @@ class MeetupInteractorImpl : MeetupInteractor {
 
     @Autowired
     private lateinit var userRepository: UserRepository
-
-    @Autowired
-    private lateinit var qrRepository: QrRepository
 
     @Autowired
     private lateinit var mailRepository: MailRepository
@@ -62,8 +58,7 @@ class MeetupInteractorImpl : MeetupInteractor {
     }
 
     private fun sendParticipationQrToUser(userId: Long, participationId: String) {
-        val qr = qrRepository.createQrCode(participationId)
         val user = userRepository.getUserById(userId)
-        mailRepository.sendQrToUser(user.email, qr)
+        mailRepository.sendQrToUser(user.email, participationId)
     }
 }
