@@ -45,7 +45,7 @@ class JwtAuthenticationController {
             authenticate(userAuthenticationManager, authenticationRequest.username, authenticationRequest.userPassword)
             val userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username) as AugmentedUserDetails
             val token = jwtUtil.generateToken(userDetails)
-            ResponseEntity.ok(UserJwtResponse(userDetails.id, userDetails.username, token))
+            ResponseEntity.ok(UserJwtResponse(userDetails.id, userDetails.firstName, userDetails.secondName, token))
         } catch (e: DisabledException) {
             ResponseEntity.of(Optional.of("USER_DISABLED"))
         } catch (e: BadCredentialsException) {

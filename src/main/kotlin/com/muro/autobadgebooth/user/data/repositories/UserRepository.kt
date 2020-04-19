@@ -31,7 +31,7 @@ class UserRepository {
 
     fun loadUserCredentialsByLogin(login: String): User =
             userDatabase.findUserByEmail(login)?.let {
-                AugmentedUserDetails(it.id, it.email, it.password)
+                AugmentedUserDetails(it.id, it.firstName, it.lastName, it.email, it.password)
             } ?: throw IllegalArgumentException("User with login $login is not found")
 
     fun createUser(userInfo: UserInfo): Long {

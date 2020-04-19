@@ -1,5 +1,6 @@
 package com.muro.autobadgebooth.controllers
 
+import com.google.gson.Gson
 import com.muro.autobadgebooth.meetup.data.dto.CreateMeetupDto
 import com.muro.autobadgebooth.meetup.data.dto.CreateTalkDto
 import com.muro.autobadgebooth.meetup.data.mappers.MeetupMapper
@@ -31,7 +32,8 @@ class MeetupController {
     }
 
     @PostMapping("/event/create")
-    fun createEvent(@Valid @RequestBody createMeetupDto: CreateMeetupDto) = try {
+    fun createEvent(@RequestBody input: String) = try {
+        val createMeetupDto = Gson().fromJson(input, CreateMeetupDto::class.java)
         val meetupInfo = meetupMapper.mapMeetupInfo(createMeetupDto)
         val meetupId = meetupInteractor.createMeetup(meetupInfo)
 
